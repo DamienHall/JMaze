@@ -38,7 +38,7 @@ public class RandomisedKruskalsAlgorithm {
         this.completion = 0;
     }
 
-    public RandomisedKruskalsAlgorithm(Window window, int rows, int columns, int cellSize ) {
+    public RandomisedKruskalsAlgorithm(Window window, int rows, int columns, int cellSize, boolean saveAsBinary, boolean saveAsJSON, boolean saveAsGIF, boolean saveAsJPEG ) {
         this.window = window;
         this.grid = new Grid( rows, columns, cellSize );
         this.renderOnly = false;

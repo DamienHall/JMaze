@@ -1,4 +1,4 @@
-package com.github.LilZcrazyG.mazeCore;//
+package com.github.LilZcrazyG.mazeCore;
 //  GifSequenceWriter.java
 //  
 //  Created by Elliot Kroo on 2009-04-25.

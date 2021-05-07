@@ -45,7 +45,7 @@ public class HuntAndKill {
         this.completion = 0;
     }
 
-    public HuntAndKill( Window window, int rows, int columns, int cellSize ) {
+    public HuntAndKill( Window window, int rows, int columns, int cellSize, boolean saveAsBinary, boolean saveAsJSON, boolean saveAsGIF, boolean saveAsJPEG ) {
         this.window = window;
         this.grid = new Grid( rows, columns, cellSize );
         this.renderOnly = false;
@@ -146,10 +146,6 @@ public class HuntAndKill {
                 }
             } else {
                 renderOnly = true;
-                Save.imageToNewFile("HuntAndKill"+grid.getRows()+","+grid.getColumns(), Save.asImage( grid.getRows()*grid.getCellSize(), grid.getColumns()*grid.getCellSize(), grid ) );
-                Save.stringToNewFile( "HuntAndKill"+grid.getRows()+","+grid.getColumns()+"BIN", Save.asBinary( grid ));
-                Save.stringToNewFile( "HuntAndKill"+grid.getRows()+","+grid.getColumns()+".json", Save.asJSON( grid ));
-                window.getSelf().dispatchEvent(new WindowEvent(window.getSelf(), WindowEvent.WINDOW_CLOSING));
             }
         }
     }

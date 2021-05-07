@@ -43,7 +43,7 @@ public class RandomisedPrimsAlgorithm {
         this.setCandidates();
     }
 
-    public RandomisedPrimsAlgorithm(Window window, int rows, int columns, int cellSize ) {
+    public RandomisedPrimsAlgorithm(Window window, int rows, int columns, int cellSize, boolean saveAsBinary, boolean saveAsJSON, boolean saveAsGIF, boolean saveAsJPEG ) {
         this.window = window;
         this.grid = new Grid( rows, columns, cellSize );
         this.renderOnly = false;

@@ -23,6 +23,8 @@ public class DepthFirstSearch {
     private double visitedCells;
     private double totalCells;
     private int completion;
+    private boolean saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG;
+
 
     /**
      * Constructor for the Depth First Search method.
@@ -42,7 +44,7 @@ public class DepthFirstSearch {
         this.completion = 0;
     }
 
-    public DepthFirstSearch( Window window, int rows, int columns, int cellSize ) {
+    public DepthFirstSearch( Window window, int rows, int columns, int cellSize, boolean saveAsBinary, boolean saveAsJSON, boolean saveAsGIF, boolean saveAsJPEG ) {
         this.window = window;
         this.grid = new Grid( rows, columns, cellSize );
         this.renderOnly = false;
@@ -53,6 +55,10 @@ public class DepthFirstSearch {
         this.visitedCells = 0;
         this.totalCells = this.grid.getRows()*this.grid.getColumns();
         this.completion = 0;
+        this.saveAsBinary = saveAsBinary;
+        this.saveAsJSON = saveAsJSON;
+        this.saveAsGIF = saveAsGIF;
+        this.saveAsJPEG = saveAsJPEG;
     }
 
     /**
@@ -86,7 +92,6 @@ public class DepthFirstSearch {
                 nextCell.highlight();
                 grid.getStackArray().add(currentCell);
                 currentCell.setInStack(true);
-                //currentCell.highlight();
                 grid.removeWalls(currentCell, nextCell);
                 currentCell = nextCell;
             } else if (grid.getStackArray().size()>0) {
@@ -99,8 +104,22 @@ public class DepthFirstSearch {
                 for (Cell cell : solution) {
                     cell.highlight();
                 }
-                Save.imageToNewFile("DepthFirstSearch"+grid.getRows()+","+grid.getColumns(), Save.asImage( grid.getRows()*grid.getCellSize(), grid.getColumns()*grid.getCellSize(), grid ) );
-                window.getSelf().dispatchEvent(new WindowEvent(window.getSelf(), WindowEvent.WINDOW_CLOSING));
+                try {
+                    if ( saveAsBinary ) {
+                        Save.stringToNewFile( "DepthFirstSearch_"+grid.getRows()+","+grid.getColumns(), Save.asBinary( grid ), ".txt" );
+                    }
+                    if ( saveAsJSON ) {
+                        Save.stringToNewFile( "DepthFirstSearch_"+grid.getRows()+","+grid.getColumns(), Save.asBinary( grid ), ".json" );
+                    }
+                    if ( saveAsGIF ) {
+                        Save.createGIF();
+                    }
+                    if ( saveAsJPEG ) {
+                        Save.imageToNewFile( "DepthFirstSearch_"+grid.getRows()+","+grid.getColumns(), Save.asImage( grid.getRows()*grid.getCellSize(), grid.getColumns()*grid.getCellSize(), grid ) );
+                    }
+                } catch (Exception e) {
+                    System.out.println("Saving Error...");
+                }
             }
         }
     }

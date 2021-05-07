@@ -13,8 +13,8 @@ public class Main {
 
     // variables
     static final int CELLSIZE = 3*2, TICKSPEED = 1000/60;
-    static Window WINDOW;
-    static final GUI GUI = new GUI( 250, 600, "GUI TESTING" );
+    static Window WINDOW = new Window( 520, 520, "Maze Window", false );
+    static Config configWindow = new Config();
     static MazeGenerator mazeGenerator;
     static boolean running = true;
     static Timer timer = new Timer();
@@ -31,9 +31,11 @@ public class Main {
     public static void main(String[] args) {
     };
 
-    public static void start() {
+    public static void start( boolean saveAsBinary, boolean saveAsJSON, boolean saveAsGIF, boolean saveAsJPEG, int mazeType, int rows, int columns, int cellSize, Window window ) {
         Graphics.initialize( WINDOW );
         Graphics.setBackgroundColor( Color.BLACK );
+        WINDOW.setVisibility( true );
+        mazeGenerator = new MazeGenerator( saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG, mazeType, rows, columns, cellSize, window );
         timer.scheduleAtFixedRate(task, 0, TICKSPEED);
         while (running) {
             render();

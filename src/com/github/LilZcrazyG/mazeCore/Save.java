@@ -28,7 +28,7 @@ public class Save {
 
     static {
         try {
-            output = new FileImageOutputStream(new File("SavedMazes/MazeGIF.gif"));
+            output = new FileImageOutputStream(new File("MazeGIF.gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -148,10 +148,10 @@ public class Save {
         return image;
     }
 
-    public static void stringToNewFile( String filename , String data ) {
+    public static void stringToNewFile( String filename, String data, String fileType ) {
         String date = Utilities.getDate("yyyy-MM-dd HH:mm:ss");
-        Utilities.createFile(filename+"["+date+"]", "SavedMazes/");
-        Utilities.writeToFile( "SavedMazes/"+filename+"["+date+"]", data );
+//        Utilities.createFile(filename+"["+date+"]"+fileType, "");
+        Utilities.writeToFile( filename+"_"+date+"]"+fileType, data );
     }
 
     public static void imageToNewFile( String filename, BufferedImage image ) {

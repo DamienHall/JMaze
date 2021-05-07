@@ -12,9 +12,10 @@ public class MazeGenerator {
     private int genMethod = 0, cellSize, rows, columns;
     private DepthFirstSearch DFS;
     private HuntAndKill HAK;
-    private RandomisedPrimsAlgorithm RPA;
     private RandomisedKruskalsAlgorithm RKA;
+    private RandomisedPrimsAlgorithm RPA;
     private Window window;
+    private boolean saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG;
 
     /**
      * Constructor for the Maze Generator.
@@ -40,6 +41,19 @@ public class MazeGenerator {
         generate();
     }
 
+    public MazeGenerator( boolean saveAsBinary, boolean saveAsJSON, boolean saveAsGIF, boolean saveAsJPEG, int mazeType, int rows, int columns, int cellSize, Window window ) {
+        this.genMethod = mazeType;
+        this.rows = rows;
+        this.columns = columns;
+        this.cellSize = cellSize;
+        this.window = window;
+        this.saveAsBinary = saveAsBinary;
+        this.saveAsJSON = saveAsJSON;
+        this.saveAsGIF = saveAsGIF;
+        this.saveAsJPEG = saveAsJPEG;
+        generate();
+    }
+
     /**
      * Stes the generation type.
      * @param genMethod The generation type.
@@ -47,8 +61,8 @@ public class MazeGenerator {
     public void setGenerationType( int genMethod ) {
         // 0 = Depth First Search
         // 1 = Hunt And Kill
-        // 2 = Randomized Prims Algorithm
-        // 3 = Randomized Kruskals Algorithm
+        // 2 = Randomized Kruskals Algorithm
+        // 3 = Randomized Prims Algorithm
         // 4 = Aldous Broder Algorithm
 
         this.genMethod = genMethod;
@@ -59,10 +73,10 @@ public class MazeGenerator {
      */
     public void generate() {
         switch (genMethod) {
-            case (0) -> DFS = new DepthFirstSearch(window, this.rows, this.columns, cellSize);
-            case (1) -> HAK = new HuntAndKill(window, this.rows, this.columns, cellSize);
-            case (2) -> RPA = new RandomisedPrimsAlgorithm(window, this.rows, this.columns, cellSize);
-            case (3) -> RKA = new RandomisedKruskalsAlgorithm(window, this.rows, this.columns, cellSize);
+            case (0) -> DFS = new DepthFirstSearch(window, this.rows, this.columns, cellSize, saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG );
+            case (1) -> HAK = new HuntAndKill(window, this.rows, this.columns, cellSize, saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG );
+            case (2) -> RKA = new RandomisedKruskalsAlgorithm(window, this.rows, this.columns, cellSize, saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG );
+            case (3) -> RPA = new RandomisedPrimsAlgorithm(window, this.rows, this.columns, cellSize, saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG );
         }
     }
 
@@ -73,8 +87,8 @@ public class MazeGenerator {
         switch (genMethod) {
             case (0) -> DFS.tick();
             case (1) -> HAK.tick();
-            case (2) -> RPA.tick();
-            case (3) -> RKA.tick();
+            case (2) -> RKA.tick();
+            case (3) -> RPA.tick();
         }
     }
 
@@ -85,8 +99,8 @@ public class MazeGenerator {
         switch (genMethod) {
             case (0) -> DFS.render();
             case (1) -> HAK.render();
-            case (2) -> RPA.render();
-            case (3) -> RKA.render();
+            case (2) -> RKA.render();
+            case (3) -> RPA.render();
         }
     }
 }
