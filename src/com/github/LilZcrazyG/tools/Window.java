@@ -2,6 +2,8 @@ package com.github.LilZcrazyG.tools;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Window {
 
@@ -83,6 +85,13 @@ public class Window {
         window.setDefaultCloseOperation(defaultCloseOperation);
         window.setVisible(showWindow);
         window.setResizable(false);
+        window.addWindowListener( new WindowAdapter() {
+            @Override
+            public void windowClosing( WindowEvent e ) {
+                System.out.println("SLFJ:LSDKJF");
+                System.exit(0);
+            }
+        });
 
         // setup panel
         panel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));

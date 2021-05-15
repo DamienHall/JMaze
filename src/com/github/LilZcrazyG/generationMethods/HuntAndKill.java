@@ -26,6 +26,7 @@ public class HuntAndKill {
     private double visitedCells;
     private double totalCells;
     private int completion;
+    private boolean saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG;
 
     /**
      * Constructor for the Hunt And Kill method.
@@ -56,6 +57,10 @@ public class HuntAndKill {
         this.visitedCells = 0;
         this.totalCells = this.grid.getRows()*this.grid.getColumns();
         this.completion = 0;
+        this.saveAsBinary = saveAsBinary;
+        this.saveAsJSON = saveAsJSON;
+        this.saveAsGIF = saveAsGIF;
+        this.saveAsJPEG = saveAsJPEG;
     }
 
     /**
@@ -140,12 +145,32 @@ public class HuntAndKill {
                 //currentCell.setFillColor(Utilities.getRandomColor(MIN,MAX));
             }
             currentCell = hunt();
+            if ( saveAsGIF ) {
+                Save.asGIF( grid );
+            }
             if (currentCell != null) {
                 if (currentCell.getNeighbors()[2]>0) {
                     grid.removeWalls(currentCell, currentCell.getRandomNeighbor().get(2));
                 }
             } else {
                 renderOnly = true;
+                try {
+                    if ( saveAsBinary ) {
+                        Save.stringToNewFile( "HuntAndKill_"+grid.getRows()+","+grid.getColumns(), Save.asBinary( grid ), ".txt" );
+                    }
+                    if ( saveAsJSON ) {
+                        Save.stringToNewFile( "HuntAndKill_"+grid.getRows()+","+grid.getColumns(), Save.asJSON( grid ), ".json" );
+                    }
+                    if ( saveAsGIF ) {
+                        Save.createGIF();
+                    }
+                    if ( saveAsJPEG ) {
+                        Save.imageToNewFile( "HuntAndKill_"+grid.getRows()+","+grid.getColumns(), Save.asImage( grid.getRows()*grid.getCellSize(), grid.getColumns()*grid.getCellSize(), grid ) );
+                    }
+                } catch (Exception e) {
+                    System.out.println("Saving Error...");
+                }
+                System.exit(1);
             }
         }
     }

@@ -28,7 +28,9 @@ public class Save {
 
     static {
         try {
-            output = new FileImageOutputStream(new File("MazeGIF.gif"));
+            String date = Utilities.getDate("yyyy-MM-dd HH:mm:ss");
+            Utilities.createFile( "MazeGIF_["+date+"].gif", "" );
+            output = new FileImageOutputStream(new File("MazeGIF_["+date+"].gif"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -129,11 +131,15 @@ public class Save {
         return image;
     }
 
-    public static void asGIF( Grid grid ) throws IOException {
+    public static void asGIF( Grid grid ) {
         BufferedImage image = new BufferedImage( grid.getRows()*grid.getCellSize(), grid.getColumns()*grid.getCellSize(), BufferedImage.TYPE_INT_RGB );
         Graphics2D imageGraphics = (Graphics2D) image.getGraphics();
         grid.renderAsImage( imageGraphics );
-        writer.writeToSequence( image );
+        try {
+            writer.writeToSequence( image );
+        } catch ( Exception e ) {
+            e.printStackTrace();
+        }
     }
 
     public static void createGIF() throws Exception {
@@ -157,7 +163,7 @@ public class Save {
     public static void imageToNewFile( String filename, BufferedImage image ) {
         String date = Utilities.getDate("yyyy-MM-dd HH:mm:ss");
         try {
-            ImageIO.write(image, "jpeg", new File("SavedMazes/"+filename+"["+date+"].jpeg"));
+            ImageIO.write(image, "jpeg", new File(filename+"["+date+"].jpeg"));
         } catch (Exception e) {
             e.printStackTrace();
         }

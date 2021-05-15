@@ -74,6 +74,9 @@ public class DepthFirstSearch {
      */
     public void tick() {
         if (!renderOnly) {
+            if ( saveAsGIF ) {
+                Save.asGIF( grid );
+            }
             if (isSolutionFound()) {
                 solution.addAll(grid.getStackArray());
                 solution.add(grid.getCell(grid.getRows()-1,grid.getColumns()-1));
@@ -109,7 +112,7 @@ public class DepthFirstSearch {
                         Save.stringToNewFile( "DepthFirstSearch_"+grid.getRows()+","+grid.getColumns(), Save.asBinary( grid ), ".txt" );
                     }
                     if ( saveAsJSON ) {
-                        Save.stringToNewFile( "DepthFirstSearch_"+grid.getRows()+","+grid.getColumns(), Save.asBinary( grid ), ".json" );
+                        Save.stringToNewFile( "DepthFirstSearch_"+grid.getRows()+","+grid.getColumns(), Save.asJSON( grid ), ".json" );
                     }
                     if ( saveAsGIF ) {
                         Save.createGIF();
@@ -120,6 +123,7 @@ public class DepthFirstSearch {
                 } catch (Exception e) {
                     System.out.println("Saving Error...");
                 }
+                System.exit(1);
             }
         }
     }

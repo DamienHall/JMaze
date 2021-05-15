@@ -24,6 +24,7 @@ public class RandomisedPrimsAlgorithm {
     private int completion;
     private int[] focus = new int[] { 0, 0 };
     private int[] oldFocus = new int[] { 0, 0 };
+    private boolean saveAsBinary, saveAsJSON, saveAsGIF, saveAsJPEG;
 
     /**
      * Constructor for the Randomised Prims Algorithm.
@@ -55,6 +56,10 @@ public class RandomisedPrimsAlgorithm {
         this.completion = 0;
         this.setCellWeights();
         this.setCandidates();
+        this.saveAsBinary = saveAsBinary;
+        this.saveAsJSON = saveAsJSON;
+        this.saveAsGIF = saveAsGIF;
+        this.saveAsJPEG = saveAsJPEG;
     }
 
     /**
@@ -113,6 +118,9 @@ public class RandomisedPrimsAlgorithm {
 
             if ( currentCell.getNeighbors()[2] > 0 ) {
                 grid.removeWalls( currentCell, currentCell.getRandomNeighbor().get(2) );
+                if ( saveAsGIF ) {
+                    Save.asGIF( grid );
+                }
             }
             setCandidates();
             if ( candidates.size() > 0 ) {
@@ -121,8 +129,23 @@ public class RandomisedPrimsAlgorithm {
                 currentCell = lowestWeightedCandidate;
             } else {
                 renderOnly = true;
-                Save.imageToNewFile("RandomisedPrimsAlgorithm"+grid.getRows()+","+grid.getColumns(), Save.asImage( grid.getRows()*grid.getCellSize(), grid.getColumns()*grid.getCellSize(), grid ) );
-                window.getSelf().dispatchEvent(new WindowEvent(window.getSelf(), WindowEvent.WINDOW_CLOSING));
+                try {
+                    if ( saveAsBinary ) {
+                        Save.stringToNewFile( "RandomisedPrimsAlgorithm_"+grid.getRows()+","+grid.getColumns(), Save.asBinary( grid ), ".txt" );
+                    }
+                    if ( saveAsJSON ) {
+                        Save.stringToNewFile( "RandomisedPrimsAlgorithm_"+grid.getRows()+","+grid.getColumns(), Save.asJSON( grid ), ".json" );
+                    }
+                    if ( saveAsGIF ) {
+                        Save.createGIF();
+                    }
+                    if ( saveAsJPEG ) {
+                        Save.imageToNewFile( "RandomisedPrimsAlgorithm_"+grid.getRows()+","+grid.getColumns(), Save.asImage( grid.getRows()*grid.getCellSize(), grid.getColumns()*grid.getCellSize(), grid ) );
+                    }
+                } catch (Exception e) {
+                    System.out.println("Saving Error...");
+                }
+                System.exit(1);
             }
             if ( grid.getCell( currentCell.getPosition()[0] + (window.getWidth()/grid.getCellSize())/2, currentCell.getPosition()[1] ) != null ) {
                 if ( grid.getCell( currentCell.getPosition()[0] - (window.getWidth()/grid.getCellSize())/2, currentCell.getPosition()[1] ) != null ) {
